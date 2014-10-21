@@ -1,4 +1,74 @@
-## Tianhe
+
+# Table of contents
+
+Quick Start
+
+|-tianhe
+  |-coding
+  |-gromacs
+
+|-cecag1
+  |-coding
+  |-gromacs
+
+Dirty Usage
+
+|-tianhe
+  |-coding
+  |-gromacs
+
+|-cecag1
+  |-coding
+  |-gromacs
+
+# Quick Start
+
+## tianhe
+
+## cecag1
+
+### coding
+
+### gromacs
+
+登录公共帐号
+
+	$ ssh pacuser12@222.29.98.5
+
+设置编译环境变量
+
+	$ . ./toolchain.sh
+
+编译
+
+	$ cd $HOME/gromacs-5.0.2
+	$ mkdir build
+	$ cd build
+	$ ln -s $HOME/build-gromacs.sh build-gromacs.sh
+	$ bash build-gromacs.sh
+	$ make -j 4
+
+运行
+
+	$ cd bin
+	$ ./gmx_mpi mdrun -v -deffnm $HOME/benchmark/test-gmx5.tpr
+
+使用mpi运行
+
+	$ mpirun -np 1 -ppn 2 gmx_mpi mdrun -v -deffnm $HOME/benchmark/test-gmx5.tpr
+
+其中<code>-np</code>指定结点数，<code>-ppn</code>指定每个结点上的进程数。
+
+调试
+
+	$ gdb -q ./gmx_mpi
+	(gdb) start mdrun -v -deffnm $HOME/benchmark/test-gmx5.tpr
+
+注意调试时给gdb的程序不能是mpirun，因为我们调试的是gmx_mpi。目前好像除了观察输出没有办法调试mpi程序。
+
+# Dirty Usage
+
+## tianhe
 
 ### Coding
 
@@ -158,7 +228,7 @@ g1上的OS（Open SUSE）不支持，tianhe上OS为RedHat，因此目前暂时�
 
 在本地上运行示例命令：
 
-	$ mpirun -np 1 -ppn gmx_mpi mdrun -v -deffnm test-gmx5.tpr
+	$ mpirun -np 1 -ppn 2 gmx_mpi mdrun -v -deffnm test-gmx5.tpr
 
 在MIC上运行示例命令：
 
