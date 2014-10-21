@@ -1,4 +1,70 @@
-## Tianhe
+
+# Table of Contents
+
+<a href="#qstart">Quick Start</a><br>
+&nbsp;&nbsp;<a href="#tianhe1.1">tianhe</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#coding1.1.1">coding</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#gromacs1.1.2">gromacs</a><br>
+&nbsp;&nbsp;<a href="#cecag11.2">cecag1</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#coding1.1.2">coding</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#gromacs1.1.2">gromacs</a><br>
+<a href="#dusage">Dirty Usage</a><br>
+&nbsp;&nbsp;<a href="#tianhe2.1">tianhe</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#coding2.1.1">coding</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#gromacs2.1.2">gromacs</a><br>
+&nbsp;&nbsp;<a href="#cecag12.2">cecag1</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#coding2.2.1">coding</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#gromacs2.2.2">gromacs</a><br>
+
+
+<a name="qstart"><h1>Quick Start</h1></a>
+
+<a name="tianhe1.1"><h2>tianhe</h2></a>
+
+<a name="cecag11.2"><h2>cecag1</h2><a>
+
+<a name="coding1.2.1"><h3>coding</h3></a>
+
+<a name="gromacs1.2.2"><h3>gromacs</h3><a>
+
+登录公共帐号
+
+	$ ssh pacuser12@222.29.98.5
+
+设置编译环境变量
+
+	$ . ./toolchain.sh
+
+编译
+
+	$ cd $HOME/gromacs-5.0.2
+	$ mkdir build
+	$ cd build
+	$ ln -s $HOME/build-gromacs.sh build-gromacs.sh
+	$ bash build-gromacs.sh
+	$ make -j 4
+
+运行
+
+	$ cd bin
+	$ ./gmx_mpi mdrun -v -deffnm $HOME/benchmark/test-gmx5.tpr
+
+使用mpi运行
+
+	$ mpirun -np 1 -ppn 2 gmx_mpi mdrun -v -deffnm $HOME/benchmark/test-gmx5.tpr
+
+其中<code>-np</code>指定结点数，<code>-ppn</code>指定每个结点上的进程数。
+
+调试
+
+	$ gdb -q ./gmx_mpi
+	(gdb) start mdrun -v -deffnm $HOME/benchmark/test-gmx5.tpr
+
+注意调试时给gdb的程序不能是mpirun，因为我们调试的是gmx_mpi。目前好像除了观察输出没有办法调试mpi程序。
+
+<a name="dusage"><h1>Dirty Usage</h1></a>
+
+## tianhe
 
 ### Coding
 
@@ -158,7 +224,7 @@ g1上的OS（Open SUSE）不支持，tianhe上OS为RedHat，因此目前暂时�
 
 在本地上运行示例命令：
 
-	$ mpirun -np 1 -ppn gmx_mpi mdrun -v -deffnm test-gmx5.tpr
+	$ mpirun -np 1 -ppn 2 gmx_mpi mdrun -v -deffnm test-gmx5.tpr
 
 在MIC上运行示例命令：
 
